@@ -30,3 +30,4 @@ def calculate_average():
     print(f'Average Weight: {average_weight:.2f} Pounds')
 
 calculate_average()
+
