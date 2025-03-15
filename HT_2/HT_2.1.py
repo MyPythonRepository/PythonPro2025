@@ -12,13 +12,22 @@ import string
 
 app = Flask(__name__)
 
+
 @app.route("/generate_password")
 def generate_password():
     length = random.randint(10, 20)
 
-    all_chars = string.ascii_letters + string.digits + string.punctuation
+    upper_char = random.choice(string.ascii_uppercase)
+    lower_char = random.choice(string.ascii_lowercase)
+    digit = random.choice(string.digits)
+    special_symbol = random.choice(string.punctuation)
 
-    password = random.choices(all_chars, k=length)
+    rest_of_length = length - 4
+    add_chars = string.ascii_letters + string.digits + string.punctuation
+    random_chars = random.choices(add_chars, k=rest_of_length)
+
+    password = [upper_char, lower_char, digit, special_symbol] + random_chars
+    random.shuffle(password)
 
     return "".join(password)
 
@@ -27,4 +36,3 @@ if __name__ == '__main__':
     app.run(
         'localhost', debug=True
     )
-

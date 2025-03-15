@@ -5,6 +5,7 @@ import functools
 import psutil
 import os
 
+
 def memory_usage_decorator(func):
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
@@ -22,5 +23,6 @@ def memory_usage_decorator(func):
 def simple_function():
     data = [i for i in range(10**6)]
     return sum(data)
+
 
 simple_function()

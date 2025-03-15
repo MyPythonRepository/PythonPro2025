@@ -29,5 +29,5 @@ def calculate_average():
     print(f'Average Height: {average_height:.2f} Inches')
     print(f'Average Weight: {average_weight:.2f} Pounds')
 
-calculate_average()
 
+calculate_average()
