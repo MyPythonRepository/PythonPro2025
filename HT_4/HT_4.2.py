@@ -7,6 +7,7 @@ from database_handler import execute_query
 app = Flask(__name__)
 
 
+# http://localhost:5000/tracks?track_id=5
 @app.route("/tracks")
 @use_kwargs(
     {
