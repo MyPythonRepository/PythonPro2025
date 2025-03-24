@@ -1,4 +1,6 @@
 from flask import Flask, jsonify
+from webargs import fields
+from webargs.flaskparser import use_kwargs
 from database_handler import execute_query
 
 
@@ -6,7 +8,13 @@ app = Flask(__name__)
 
 
 @app.route("/tracks")
-def get_all_info_about_track():
+@use_kwargs(
+    {
+        "track_id": fields.Int(required=False)
+     },
+    location="query"
+)
+def get_all_info_about_track(track_id=None):
 
     query = """
     SELECT
@@ -37,12 +45,17 @@ def get_all_info_about_track():
     LEFT JOIN customers ON invoices.CustomerId = customers.CustomerId
     LEFT JOIN playlist_track ON tracks.TrackId = playlist_track.TrackId
     LEFT JOIN playlists ON playlist_track.PlaylistId = playlists.PlaylistId
-
-    GROUP BY tracks.TrackId, albums.AlbumId, artists.ArtistId, genres.GenreId, media_types.MediaTypeId
-    ORDER BY tracks.TrackId;
     """
 
-    records = execute_query(query)
+    query_parameters = ()
+    if track_id:
+        query += " WHERE tracks.TrackId = ?"
+        query_parameters = (track_id,)
+
+    query += " GROUP BY tracks.TrackId, albums.AlbumId, artists.ArtistId, genres.GenreId, media_types.MediaTypeId"
+    query += " ORDER BY tracks.TrackId"
+
+    records = execute_query(query, query_parameters)
 
     tracks_data = []
     for result in records:

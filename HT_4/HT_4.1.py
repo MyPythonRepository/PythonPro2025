@@ -1,4 +1,6 @@
-from flask import Flask, request, jsonify
+from flask import Flask, jsonify
+from webargs import fields
+from webargs.flaskparser import use_kwargs
 from database_handler import execute_query
 
 
@@ -7,8 +9,13 @@ app = Flask(__name__)
 
 # http://localhost:5000/sales?country=Germany
 @app.route("/sales")
-def get_sales():
-    country = request.args.get("country")
+@use_kwargs(
+    {
+        "country": fields.Str(missing=None)
+    },
+    location="query"
+)
+def get_sales(country):
 
     query = """
         SELECT BillingCountry, SUM(UnitPrice * Quantity) as TotalSales
