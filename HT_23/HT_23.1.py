@@ -11,6 +11,7 @@ def map_dict(my_dict, func1, func2):
     for k, v in my_dict.items():
         yield func1(k), func2(v)
 
+
 new_iter = map_dict(dict1, str.upper, lambda x: x * 20)
 
 new_dict = dict(new_iter)
