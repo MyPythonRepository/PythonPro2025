@@ -8,8 +8,7 @@ dict1 = {"a": 1, "b": 2, "C": 80}
 
 
 def map_dict(my_dict, func1, func2):
-    for k, v in my_dict.items():
-        yield func1(k), func2(v)
+    return iter((func1(k), func2(v)) for k, v in my_dict.items())
 
 
 new_iter = map_dict(dict1, str.upper, lambda x: x * 20)

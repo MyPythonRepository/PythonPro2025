@@ -11,13 +11,16 @@ nltk.download("words", quiet=True)
 
 def generate_unique_words(n):
     max_n = 10_000
-    n = min(n, max_n)
-    filtered_words = [w.lower() for w in words.words() if w.isalpha() and len(w) == 8]
-    n = min(n, len(filtered_words))
-    random.shuffle(filtered_words)
+    if n > max_n:
+        raise ValueError(f"Maximum number of words is {max_n}")
+
+    unique_words = list({w.lower() for w in words.words() if w.isalpha()})
+    random.shuffle(unique_words)
+
     for i in range(n):
-        yield filtered_words[i]
+        yield unique_words[i]
 
 
-for word in generate_unique_words(5):
-    print(word)
+x = list(generate_unique_words(10_000))
+print(len(x))
+print(len(set(x)))
