@@ -1,4 +1,6 @@
 import asyncio
+import random
+
 import aiohttp
 from pathlib import Path
 
@@ -43,13 +45,7 @@ async def notify_completion():
 
 
 async def main():
-    image_urls = [
-        "https://picsum.photos/200/300",
-        "https://picsum.photos/300/200",
-        "https://picsum.photos/250/250",
-        "https://picsum.photos/310/310",
-        "https://picsum.photos/220/330",
-    ]
+    image_urls = [f"https://picsum.photos/300/200?nocache={random.randint(1, 1_000_000)}" for _ in range(5)]
 
     future = asyncio.Future()
 
